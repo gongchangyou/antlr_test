@@ -1,6 +1,7 @@
+// Generated from java-escape by ANTLR 4.11.1
+
 package com.mouse.antlr_test.expr;
 
-// Generated from java-escape by ANTLR 4.11.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -32,7 +33,7 @@ public class CommonParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "';'", "'='", "'('", "')'", "'['", "','", "']'", null, null, null, 
-			null, "'IN'", "'LIKE'"
+			null, "'IN'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();

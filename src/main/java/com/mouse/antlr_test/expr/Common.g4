@@ -1,5 +1,9 @@
 grammar Common;
 
+@header {
+package com.mouse.antlr_test.expr;
+}
+
 parse:   exprs EOF ;
 
 exprs:   expr (';' expr)* ';'?;
@@ -23,4 +27,9 @@ NUMBER  : [0-9]+ ;
 STRING  : '"' (~["\\] | '\\"' | '\\\\')* '"' ;
 WS      : [ \t\r\n]+ -> skip ;
 IN      : 'IN' ;
-LIKE    : 'LIKE' ;
+LIKE    : L I K E ;
+
+fragment L : [lL];
+fragment I : [iI];
+fragment K : [kK];
+fragment E : [eE];
