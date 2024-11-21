@@ -22,5 +22,5 @@ ID      : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER  : [0-9]+ ;
 STRING  : '"' (~["\\] | '\\"' | '\\\\')* '"' ;
 WS      : [ \t\r\n]+ -> skip ;
-IN      : I N ;
+IN      : 'IN' ;
 LIKE    : 'LIKE' ;

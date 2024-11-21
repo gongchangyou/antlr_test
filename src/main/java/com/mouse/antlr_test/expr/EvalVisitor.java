@@ -1,31 +1,38 @@
 package com.mouse.antlr_test.expr;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class EvalVisitor extends CommonBaseVisitor<Object> {
+public class EvalVisitor extends CommonBaseVisitor<Boolean> {
 
     public EvalVisitor(){
     }
 
-    @Override
-    public Object visitExprIn(CommonParser.ExprInContext ctx) {
-        System.out.println(ctx);
-        return visitChildren(ctx);
-    }
-    @Override public Object visitAtomExpr(CommonParser.AtomExprContext ctx) {
-        System.out.println(ctx.getText());
-        return visitChildren(ctx);
-    }
-    @Override public Object visitExprLike(CommonParser.ExprLikeContext ctx) {
-        System.out.println(ctx);
-        return visitChildren(ctx);
+    /**
+     * 这个非常重要，不会解析 EOF, 防止最后返回EOF的结果null
+     * @param ctx the parse tree
+     * @return
+     */
+    @Override public Boolean visitParse(CommonParser.ParseContext ctx) {
+        return visit(ctx.exprs());
     }
 
-    @Override public Object visitCompareExpr(CommonParser.CompareExprContext ctx) {
+    @Override
+    public Boolean visitExprIn(CommonParser.ExprInContext ctx) {
+        System.out.println(ctx);
+        return true;
+    }
+    @Override public Boolean visitAtomExpr(CommonParser.AtomExprContext ctx) {
+        System.out.println(ctx.getText());
+        return true;
+    }
+    @Override public Boolean visitExprLike(CommonParser.ExprLikeContext ctx) {
+        System.out.println(ctx);
+        return true;
+    }
+
+    @Override public Boolean visitCompareExpr(CommonParser.CompareExprContext ctx) {
         System.out.println(ctx.atom(0).getText() + " " +ctx.atom(1).getText());
-        return visitChildren(ctx);
+
+        return ctx.atom(0).getText().equals(ctx.atom(1).getText());
     }
 
 
