@@ -30,18 +30,6 @@ public interface CommonListener extends ParseTreeListener {
 	 */
 	void exitExprs(CommonParser.ExprsContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExprIn}
-	 * labeled alternative in {@link CommonParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterExprIn(CommonParser.ExprInContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExprIn}
-	 * labeled alternative in {@link CommonParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitExprIn(CommonParser.ExprInContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code ExprLike}
 	 * labeled alternative in {@link CommonParser#expr}.
 	 * @param ctx the parse tree
