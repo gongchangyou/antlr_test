@@ -25,6 +25,13 @@ public interface CommonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprs(CommonParser.ExprsContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExprIn}
+	 * labeled alternative in {@link CommonParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprIn(CommonParser.ExprInContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExprLike}
 	 * labeled alternative in {@link CommonParser#expr}.
 	 * @param ctx the parse tree

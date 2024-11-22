@@ -19,8 +19,8 @@ public class CommonParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, ID=8, NUMBER=9, 
-		STRING=10, WS=11, LIKE=12;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, ID=9, 
+		NUMBER=10, STRING=11, WS=12, IN=13;
 	public static final int
 		RULE_parse = 0, RULE_exprs = 1, RULE_expr = 2, RULE_atom = 3, RULE_list = 4;
 	private static String[] makeRuleNames() {
@@ -32,14 +32,15 @@ public class CommonParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "';'", "'='", "'('", "')'", "'['", "','", "']'"
+			null, "';'", "'LIKE'", "'='", "'('", "')'", "'['", "','", "']'", null, 
+			null, null, null, "'IN'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, "ID", "NUMBER", "STRING", 
-			"WS", "LIKE"
+			null, null, null, null, null, null, null, null, null, "ID", "NUMBER", 
+			"STRING", "WS", "IN"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -232,6 +233,30 @@ public class CommonParser extends Parser {
 		}
 	}
 	@SuppressWarnings("CheckReturnValue")
+	public static class ExprInContext extends ExprContext {
+		public AtomContext atom() {
+			return getRuleContext(AtomContext.class,0);
+		}
+		public TerminalNode IN() { return getToken(CommonParser.IN, 0); }
+		public ListContext list() {
+			return getRuleContext(ListContext.class,0);
+		}
+		public ExprInContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof CommonListener ) ((CommonListener)listener).enterExprIn(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof CommonListener ) ((CommonListener)listener).exitExprIn(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof CommonVisitor ) return ((CommonVisitor<? extends T>)visitor).visitExprIn(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	@SuppressWarnings("CheckReturnValue")
 	public static class CompareExprContext extends ExprContext {
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
@@ -262,7 +287,6 @@ public class CommonParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
-		public TerminalNode LIKE() { return getToken(CommonParser.LIKE, 0); }
 		public ExprLikeContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -303,23 +327,23 @@ public class CommonParser extends Parser {
 		ExprContext _localctx = new ExprContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_expr);
 		try {
-			setState(33);
+			setState(37);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
-				_localctx = new ExprLikeContext(_localctx);
+				_localctx = new ExprInContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(24);
 				atom();
 				setState(25);
-				match(LIKE);
+				match(IN);
 				setState(26);
-				atom();
+				list();
 				}
 				break;
 			case 2:
-				_localctx = new CompareExprContext(_localctx);
+				_localctx = new ExprLikeContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(28);
@@ -331,10 +355,22 @@ public class CommonParser extends Parser {
 				}
 				break;
 			case 3:
-				_localctx = new AtomExprContext(_localctx);
+				_localctx = new CompareExprContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(32);
+				atom();
+				setState(33);
+				match(T__2);
+				setState(34);
+				atom();
+				}
+				break;
+			case 4:
+				_localctx = new AtomExprContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(36);
 				atom();
 				}
 				break;
@@ -442,14 +478,14 @@ public class CommonParser extends Parser {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_atom);
 		try {
-			setState(42);
+			setState(46);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new IdentifierAtomContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(35);
+				setState(39);
 				match(ID);
 				}
 				break;
@@ -457,7 +493,7 @@ public class CommonParser extends Parser {
 				_localctx = new NumberAtomContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(36);
+				setState(40);
 				match(NUMBER);
 				}
 				break;
@@ -465,20 +501,20 @@ public class CommonParser extends Parser {
 				_localctx = new StringAtomContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(37);
+				setState(41);
 				match(STRING);
 				}
 				break;
-			case T__2:
+			case T__3:
 				_localctx = new ParenthesizedExprContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(38);
-				match(T__2);
-				setState(39);
-				expr();
-				setState(40);
+				setState(42);
 				match(T__3);
+				setState(43);
+				expr();
+				setState(44);
+				match(T__4);
 				}
 				break;
 			default:
@@ -530,28 +566,28 @@ public class CommonParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
-			match(T__4);
-			setState(45);
+			setState(48);
+			match(T__5);
+			setState(49);
 			expr();
-			setState(50);
+			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__5) {
+			while (_la==T__6) {
 				{
 				{
-				setState(46);
-				match(T__5);
-				setState(47);
+				setState(50);
+				match(T__6);
+				setState(51);
 				expr();
 				}
 				}
-				setState(52);
+				setState(56);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(53);
-			match(T__6);
+			setState(57);
+			match(T__7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -566,41 +602,44 @@ public class CommonParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\f8\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\r<\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0001"+
 		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0005"+
 		"\u0001\u0011\b\u0001\n\u0001\f\u0001\u0014\t\u0001\u0001\u0001\u0003\u0001"+
 		"\u0017\b\u0001\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
-		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0003\u0002\"\b\u0002"+
-		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003"+
-		"\u0001\u0003\u0003\u0003+\b\u0003\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0004\u0005\u00041\b\u0004\n\u0004\f\u00044\t\u0004\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0000\u0000\u0005\u0000\u0002\u0004\u0006\b\u0000"+
-		"\u0000:\u0000\n\u0001\u0000\u0000\u0000\u0002\r\u0001\u0000\u0000\u0000"+
-		"\u0004!\u0001\u0000\u0000\u0000\u0006*\u0001\u0000\u0000\u0000\b,\u0001"+
-		"\u0000\u0000\u0000\n\u000b\u0003\u0002\u0001\u0000\u000b\f\u0005\u0000"+
-		"\u0000\u0001\f\u0001\u0001\u0000\u0000\u0000\r\u0012\u0003\u0004\u0002"+
-		"\u0000\u000e\u000f\u0005\u0001\u0000\u0000\u000f\u0011\u0003\u0004\u0002"+
-		"\u0000\u0010\u000e\u0001\u0000\u0000\u0000\u0011\u0014\u0001\u0000\u0000"+
-		"\u0000\u0012\u0010\u0001\u0000\u0000\u0000\u0012\u0013\u0001\u0000\u0000"+
-		"\u0000\u0013\u0016\u0001\u0000\u0000\u0000\u0014\u0012\u0001\u0000\u0000"+
-		"\u0000\u0015\u0017\u0005\u0001\u0000\u0000\u0016\u0015\u0001\u0000\u0000"+
-		"\u0000\u0016\u0017\u0001\u0000\u0000\u0000\u0017\u0003\u0001\u0000\u0000"+
-		"\u0000\u0018\u0019\u0003\u0006\u0003\u0000\u0019\u001a\u0005\f\u0000\u0000"+
-		"\u001a\u001b\u0003\u0006\u0003\u0000\u001b\"\u0001\u0000\u0000\u0000\u001c"+
-		"\u001d\u0003\u0006\u0003\u0000\u001d\u001e\u0005\u0002\u0000\u0000\u001e"+
-		"\u001f\u0003\u0006\u0003\u0000\u001f\"\u0001\u0000\u0000\u0000 \"\u0003"+
-		"\u0006\u0003\u0000!\u0018\u0001\u0000\u0000\u0000!\u001c\u0001\u0000\u0000"+
-		"\u0000! \u0001\u0000\u0000\u0000\"\u0005\u0001\u0000\u0000\u0000#+\u0005"+
-		"\b\u0000\u0000$+\u0005\t\u0000\u0000%+\u0005\n\u0000\u0000&\'\u0005\u0003"+
-		"\u0000\u0000\'(\u0003\u0004\u0002\u0000()\u0005\u0004\u0000\u0000)+\u0001"+
-		"\u0000\u0000\u0000*#\u0001\u0000\u0000\u0000*$\u0001\u0000\u0000\u0000"+
-		"*%\u0001\u0000\u0000\u0000*&\u0001\u0000\u0000\u0000+\u0007\u0001\u0000"+
-		"\u0000\u0000,-\u0005\u0005\u0000\u0000-2\u0003\u0004\u0002\u0000./\u0005"+
-		"\u0006\u0000\u0000/1\u0003\u0004\u0002\u00000.\u0001\u0000\u0000\u0000"+
-		"14\u0001\u0000\u0000\u000020\u0001\u0000\u0000\u000023\u0001\u0000\u0000"+
-		"\u000035\u0001\u0000\u0000\u000042\u0001\u0000\u0000\u000056\u0005\u0007"+
-		"\u0000\u00006\t\u0001\u0000\u0000\u0000\u0005\u0012\u0016!*2";
+		"\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002\u0001\u0002"+
+		"\u0001\u0002\u0001\u0002\u0003\u0002&\b\u0002\u0001\u0003\u0001\u0003"+
+		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003"+
+		"/\b\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0005\u0004"+
+		"5\b\u0004\n\u0004\f\u00048\t\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0000\u0000\u0005\u0000\u0002\u0004\u0006\b\u0000\u0000?\u0000\n\u0001"+
+		"\u0000\u0000\u0000\u0002\r\u0001\u0000\u0000\u0000\u0004%\u0001\u0000"+
+		"\u0000\u0000\u0006.\u0001\u0000\u0000\u0000\b0\u0001\u0000\u0000\u0000"+
+		"\n\u000b\u0003\u0002\u0001\u0000\u000b\f\u0005\u0000\u0000\u0001\f\u0001"+
+		"\u0001\u0000\u0000\u0000\r\u0012\u0003\u0004\u0002\u0000\u000e\u000f\u0005"+
+		"\u0001\u0000\u0000\u000f\u0011\u0003\u0004\u0002\u0000\u0010\u000e\u0001"+
+		"\u0000\u0000\u0000\u0011\u0014\u0001\u0000\u0000\u0000\u0012\u0010\u0001"+
+		"\u0000\u0000\u0000\u0012\u0013\u0001\u0000\u0000\u0000\u0013\u0016\u0001"+
+		"\u0000\u0000\u0000\u0014\u0012\u0001\u0000\u0000\u0000\u0015\u0017\u0005"+
+		"\u0001\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0016\u0017\u0001"+
+		"\u0000\u0000\u0000\u0017\u0003\u0001\u0000\u0000\u0000\u0018\u0019\u0003"+
+		"\u0006\u0003\u0000\u0019\u001a\u0005\r\u0000\u0000\u001a\u001b\u0003\b"+
+		"\u0004\u0000\u001b&\u0001\u0000\u0000\u0000\u001c\u001d\u0003\u0006\u0003"+
+		"\u0000\u001d\u001e\u0005\u0002\u0000\u0000\u001e\u001f\u0003\u0006\u0003"+
+		"\u0000\u001f&\u0001\u0000\u0000\u0000 !\u0003\u0006\u0003\u0000!\"\u0005"+
+		"\u0003\u0000\u0000\"#\u0003\u0006\u0003\u0000#&\u0001\u0000\u0000\u0000"+
+		"$&\u0003\u0006\u0003\u0000%\u0018\u0001\u0000\u0000\u0000%\u001c\u0001"+
+		"\u0000\u0000\u0000% \u0001\u0000\u0000\u0000%$\u0001\u0000\u0000\u0000"+
+		"&\u0005\u0001\u0000\u0000\u0000\'/\u0005\t\u0000\u0000(/\u0005\n\u0000"+
+		"\u0000)/\u0005\u000b\u0000\u0000*+\u0005\u0004\u0000\u0000+,\u0003\u0004"+
+		"\u0002\u0000,-\u0005\u0005\u0000\u0000-/\u0001\u0000\u0000\u0000.\'\u0001"+
+		"\u0000\u0000\u0000.(\u0001\u0000\u0000\u0000.)\u0001\u0000\u0000\u0000"+
+		".*\u0001\u0000\u0000\u0000/\u0007\u0001\u0000\u0000\u000001\u0005\u0006"+
+		"\u0000\u000016\u0003\u0004\u0002\u000023\u0005\u0007\u0000\u000035\u0003"+
+		"\u0004\u0002\u000042\u0001\u0000\u0000\u000058\u0001\u0000\u0000\u0000"+
+		"64\u0001\u0000\u0000\u000067\u0001\u0000\u0000\u000079\u0001\u0000\u0000"+
+		"\u000086\u0001\u0000\u0000\u00009:\u0005\b\u0000\u0000:\t\u0001\u0000"+
+		"\u0000\u0000\u0005\u0012\u0016%.6";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
