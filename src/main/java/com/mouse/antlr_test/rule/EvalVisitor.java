@@ -1,6 +1,8 @@
 package com.mouse.antlr_test.rule;
 
 
+import java.util.List;
+
 public class EvalVisitor extends RuleBaseVisitor<Boolean> {
 
     public EvalVisitor(){
@@ -33,18 +35,36 @@ public class EvalVisitor extends RuleBaseVisitor<Boolean> {
     public Boolean visitNotExpr(RuleParser.NotExprContext ctx) {
         return !visit(ctx.expr());
     }
-//    @Override
-//    public Boolean visitExprIn(RuleParser.ExprInContext ctx) {
-//        System.out.println(ctx);
-//        return true;
-//    }
-    @Override public Boolean visitAtomExpr(RuleParser.AtomExprContext ctx) {
-        System.out.println(ctx.getText());
-        return true;
+
+
+    @Override
+    public Boolean visitAtomExpr(RuleParser.AtomExprContext ctx) {
+        return visit(ctx.atom());
+    }
+
+
+    //TODO IN 前后都是表达式，无法将返回结果统一成Boolean 了
+    @Override
+    public Boolean visitExprIn(RuleParser.ExprInContext ctx) {
+        Object left = visit(ctx.atom());
+        Object right = visit(ctx.list());
+        if (left instanceof Comparable<?> && right instanceof List<?>) {
+            for (Object item : (List<?>) right) {
+                if (item.equals(left)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     @Override public Boolean visitExprLike(RuleParser.ExprLikeContext ctx) {
-        System.out.println(ctx);
-        return true;
+        Object left = visit(ctx.atom(0));
+        Object right = visit(ctx.atom(1));
+        if (left instanceof String && right instanceof String) {
+            String pattern = ((String) right).replaceAll("%", ".*").replaceAll("_", ".");
+            return ((String) left).matches(pattern);
+        }
+        return false;
     }
 
     @Override public Boolean visitCompareExpr(RuleParser.CompareExprContext ctx) {

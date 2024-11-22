@@ -19,9 +19,8 @@ public class RuleParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, COMPARISON=8, 
-		ID=9, NUMBER=10, STRING=11, TRUE=12, FALSE=13, AND=14, OR=15, NOT=16, 
-		IN=17, LIKE=18, WS=19;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, COMPARISON=6, NUMBER=7, STRING=8, 
+		TRUE=9, FALSE=10, AND=11, OR=12, NOT=13, IN=14, LIKE=15, ID=16, WS=17;
 	public static final int
 		RULE_parse = 0, RULE_expr = 1, RULE_atom = 2, RULE_list = 3;
 	private static String[] makeRuleNames() {
@@ -33,14 +32,14 @@ public class RuleParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'AND'", "'OR'", "'('", "')'", "'['", "','", "']'"
+			null, "'('", "')'", "'['", "','", "']'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, "COMPARISON", "ID", "NUMBER", 
-			"STRING", "TRUE", "FALSE", "AND", "OR", "NOT", "IN", "LIKE", "WS"
+			null, null, null, null, null, null, "COMPARISON", "NUMBER", "STRING", 
+			"TRUE", "FALSE", "AND", "OR", "NOT", "IN", "LIKE", "ID", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -162,6 +161,7 @@ public class RuleParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
+		public TerminalNode AND() { return getToken(RuleParser.AND, 0); }
 		public AndExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -318,6 +318,7 @@ public class RuleParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
+		public TerminalNode OR() { return getToken(RuleParser.OR, 0); }
 		public OrExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -370,11 +371,11 @@ public class RuleParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(14);
-				match(T__2);
+				match(T__0);
 				setState(15);
 				expr(0);
 				setState(16);
-				match(T__3);
+				match(T__1);
 				}
 				break;
 			case 3:
@@ -445,7 +446,7 @@ public class RuleParser extends Parser {
 						setState(33);
 						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(34);
-						match(T__0);
+						match(AND);
 						setState(35);
 						expr(9);
 						}
@@ -457,7 +458,7 @@ public class RuleParser extends Parser {
 						setState(36);
 						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(37);
-						match(T__1);
+						match(OR);
 						setState(38);
 						expr(8);
 						}
@@ -682,17 +683,17 @@ public class RuleParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(51);
-			match(T__4);
+			match(T__2);
 			setState(52);
 			expr(0);
 			setState(57);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__5) {
+			while (_la==T__3) {
 				{
 				{
 				setState(53);
-				match(T__5);
+				match(T__3);
 				setState(54);
 				expr(0);
 				}
@@ -702,7 +703,7 @@ public class RuleParser extends Parser {
 				_la = _input.LA(1);
 			}
 			setState(60);
-			match(T__6);
+			match(T__4);
 			}
 		}
 		catch (RecognitionException re) {
@@ -734,7 +735,7 @@ public class RuleParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u0013?\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0011?\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0001\u0000\u0001\u0000\u0001"+
 		"\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
 		"\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
@@ -749,32 +750,32 @@ public class RuleParser extends Parser {
 		"\u0000\u0000\u0000\u00041\u0001\u0000\u0000\u0000\u00063\u0001\u0000\u0000"+
 		"\u0000\b\t\u0003\u0002\u0001\u0000\t\n\u0005\u0000\u0000\u0001\n\u0001"+
 		"\u0001\u0000\u0000\u0000\u000b\f\u0006\u0001\uffff\uffff\u0000\f\r\u0005"+
-		"\u0010\u0000\u0000\r \u0003\u0002\u0001\u0006\u000e\u000f\u0005\u0003"+
-		"\u0000\u0000\u000f\u0010\u0003\u0002\u0001\u0000\u0010\u0011\u0005\u0004"+
-		"\u0000\u0000\u0011 \u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0004\u0002"+
-		"\u0000\u0013\u0014\u0005\u0011\u0000\u0000\u0014\u0015\u0003\u0006\u0003"+
-		"\u0000\u0015 \u0001\u0000\u0000\u0000\u0016\u0017\u0003\u0004\u0002\u0000"+
-		"\u0017\u0018\u0005\u0012\u0000\u0000\u0018\u0019\u0003\u0004\u0002\u0000"+
-		"\u0019 \u0001\u0000\u0000\u0000\u001a\u001b\u0003\u0004\u0002\u0000\u001b"+
-		"\u001c\u0005\b\u0000\u0000\u001c\u001d\u0003\u0004\u0002\u0000\u001d "+
-		"\u0001\u0000\u0000\u0000\u001e \u0003\u0004\u0002\u0000\u001f\u000b\u0001"+
-		"\u0000\u0000\u0000\u001f\u000e\u0001\u0000\u0000\u0000\u001f\u0012\u0001"+
-		"\u0000\u0000\u0000\u001f\u0016\u0001\u0000\u0000\u0000\u001f\u001a\u0001"+
-		"\u0000\u0000\u0000\u001f\u001e\u0001\u0000\u0000\u0000 )\u0001\u0000\u0000"+
-		"\u0000!\"\n\b\u0000\u0000\"#\u0005\u0001\u0000\u0000#(\u0003\u0002\u0001"+
-		"\t$%\n\u0007\u0000\u0000%&\u0005\u0002\u0000\u0000&(\u0003\u0002\u0001"+
-		"\b\'!\u0001\u0000\u0000\u0000\'$\u0001\u0000\u0000\u0000(+\u0001\u0000"+
-		"\u0000\u0000)\'\u0001\u0000\u0000\u0000)*\u0001\u0000\u0000\u0000*\u0003"+
-		"\u0001\u0000\u0000\u0000+)\u0001\u0000\u0000\u0000,2\u0005\t\u0000\u0000"+
-		"-2\u0005\n\u0000\u0000.2\u0005\u000b\u0000\u0000/2\u0005\f\u0000\u0000"+
-		"02\u0005\r\u0000\u00001,\u0001\u0000\u0000\u00001-\u0001\u0000\u0000\u0000"+
-		"1.\u0001\u0000\u0000\u00001/\u0001\u0000\u0000\u000010\u0001\u0000\u0000"+
-		"\u00002\u0005\u0001\u0000\u0000\u000034\u0005\u0005\u0000\u000049\u0003"+
-		"\u0002\u0001\u000056\u0005\u0006\u0000\u000068\u0003\u0002\u0001\u0000"+
-		"75\u0001\u0000\u0000\u00008;\u0001\u0000\u0000\u000097\u0001\u0000\u0000"+
-		"\u00009:\u0001\u0000\u0000\u0000:<\u0001\u0000\u0000\u0000;9\u0001\u0000"+
-		"\u0000\u0000<=\u0005\u0007\u0000\u0000=\u0007\u0001\u0000\u0000\u0000"+
-		"\u0005\u001f\')19";
+		"\r\u0000\u0000\r \u0003\u0002\u0001\u0006\u000e\u000f\u0005\u0001\u0000"+
+		"\u0000\u000f\u0010\u0003\u0002\u0001\u0000\u0010\u0011\u0005\u0002\u0000"+
+		"\u0000\u0011 \u0001\u0000\u0000\u0000\u0012\u0013\u0003\u0004\u0002\u0000"+
+		"\u0013\u0014\u0005\u000e\u0000\u0000\u0014\u0015\u0003\u0006\u0003\u0000"+
+		"\u0015 \u0001\u0000\u0000\u0000\u0016\u0017\u0003\u0004\u0002\u0000\u0017"+
+		"\u0018\u0005\u000f\u0000\u0000\u0018\u0019\u0003\u0004\u0002\u0000\u0019"+
+		" \u0001\u0000\u0000\u0000\u001a\u001b\u0003\u0004\u0002\u0000\u001b\u001c"+
+		"\u0005\u0006\u0000\u0000\u001c\u001d\u0003\u0004\u0002\u0000\u001d \u0001"+
+		"\u0000\u0000\u0000\u001e \u0003\u0004\u0002\u0000\u001f\u000b\u0001\u0000"+
+		"\u0000\u0000\u001f\u000e\u0001\u0000\u0000\u0000\u001f\u0012\u0001\u0000"+
+		"\u0000\u0000\u001f\u0016\u0001\u0000\u0000\u0000\u001f\u001a\u0001\u0000"+
+		"\u0000\u0000\u001f\u001e\u0001\u0000\u0000\u0000 )\u0001\u0000\u0000\u0000"+
+		"!\"\n\b\u0000\u0000\"#\u0005\u000b\u0000\u0000#(\u0003\u0002\u0001\t$"+
+		"%\n\u0007\u0000\u0000%&\u0005\f\u0000\u0000&(\u0003\u0002\u0001\b\'!\u0001"+
+		"\u0000\u0000\u0000\'$\u0001\u0000\u0000\u0000(+\u0001\u0000\u0000\u0000"+
+		")\'\u0001\u0000\u0000\u0000)*\u0001\u0000\u0000\u0000*\u0003\u0001\u0000"+
+		"\u0000\u0000+)\u0001\u0000\u0000\u0000,2\u0005\u0010\u0000\u0000-2\u0005"+
+		"\u0007\u0000\u0000.2\u0005\b\u0000\u0000/2\u0005\t\u0000\u000002\u0005"+
+		"\n\u0000\u00001,\u0001\u0000\u0000\u00001-\u0001\u0000\u0000\u00001.\u0001"+
+		"\u0000\u0000\u00001/\u0001\u0000\u0000\u000010\u0001\u0000\u0000\u0000"+
+		"2\u0005\u0001\u0000\u0000\u000034\u0005\u0003\u0000\u000049\u0003\u0002"+
+		"\u0001\u000056\u0005\u0004\u0000\u000068\u0003\u0002\u0001\u000075\u0001"+
+		"\u0000\u0000\u00008;\u0001\u0000\u0000\u000097\u0001\u0000\u0000\u0000"+
+		"9:\u0001\u0000\u0000\u0000:<\u0001\u0000\u0000\u0000;9\u0001\u0000\u0000"+
+		"\u0000<=\u0005\u0005\u0000\u0000=\u0007\u0001\u0000\u0000\u0000\u0005"+
+		"\u001f\')19";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
