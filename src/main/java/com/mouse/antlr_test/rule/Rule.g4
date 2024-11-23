@@ -6,7 +6,6 @@ package com.mouse.antlr_test.rule;
 
 parse:   expr EOF ;
 
-//这里 AND OR 关键字非得用 '' 框起来, 直接用AND 下面配了规则还不行
 expr:    expr AND expr              # AndExpr
        | expr OR expr               # OrExpr
        | NOT expr                   # NotExpr
@@ -38,7 +37,7 @@ NOT     : N O T ;
 IN      : I N ;
 LIKE    : L I K E ;
 //关键字必须在ID之前被定义!!
-ID      : [a-zA-Z_][a-zA-Z0-9_]* ;
+ID      : [a-zA-Z_%][a-zA-Z0-9_%]* ;
 
 WS      : [ \t\r\n]+ -> skip ;
 

@@ -22,12 +22,12 @@ atom:    ID                       # IdentifierAtom
 
 list:    '[' expr (',' expr)* ']' ;
 
-ID      : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER  : [0-9]+ ;
 STRING  : '"' (~["\\] | '\\"' | '\\\\')* '"' ;
 WS      : [ \t\r\n]+ -> skip ;
 IN      : 'IN' ;
 LIKE    : L I K E ;
+ID      : [a-zA-Z_%][a-zA-Z0-9_%]* ;
 
 fragment L : [lL];
 fragment I : [iI];

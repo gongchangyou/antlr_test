@@ -1,7 +1,14 @@
 package com.mouse.antlr_test.rule;
 
 
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EvalVisitor extends RuleBaseVisitor<Boolean> {
 
@@ -46,30 +53,40 @@ public class EvalVisitor extends RuleBaseVisitor<Boolean> {
     //TODO IN 前后都是表达式，无法将返回结果统一成Boolean 了
     @Override
     public Boolean visitExprIn(RuleParser.ExprInContext ctx) {
-        Object left = visit(ctx.atom());
-        Object right = visit(ctx.list());
-        if (left instanceof Comparable<?> && right instanceof List<?>) {
-            for (Object item : (List<?>) right) {
-                if (item.equals(left)) {
-                    return true;
+        Object left = ctx.atom().getText();
+        for (ParseTree pt : ctx.list().children) {
+            if (pt instanceof RuleParser.AtomExprContext) {
+                boolean match = ((RuleParser.AtomExprContext) pt).atom().getText().equals(left);
+                if (match) {
+                    return match;
                 }
             }
         }
+
         return false;
     }
+    private static final Map<String, Pattern> patternCache = new HashMap<>();
+
     @Override public Boolean visitExprLike(RuleParser.ExprLikeContext ctx) {
-        Object left = visit(ctx.atom(0));
-        Object right = visit(ctx.atom(1));
-        if (left instanceof String && right instanceof String) {
-            String pattern = ((String) right).replaceAll("%", ".*").replaceAll("_", ".");
-            return ((String) left).matches(pattern);
+        String left = ctx.atom(0).getText();
+        String right = ctx.atom(1).getText();
+        // 检查缓存中是否存在编译后的正则表达式
+        Pattern compiledPattern = patternCache.get(right);
+
+        if (compiledPattern == null) {
+            // 如果不存在，编译新的正则表达式并存入缓存
+            String regex = right.replace("%", ".*");
+            compiledPattern = Pattern.compile(regex);
+            patternCache.put(right, compiledPattern);
         }
-        return false;
+        // 创建 Matcher 对象
+        Matcher matcher = compiledPattern.matcher(left);
+
+        // 返回匹配结果
+        return matcher.matches();
     }
 
     @Override public Boolean visitCompareExpr(RuleParser.CompareExprContext ctx) {
-        System.out.println(ctx.atom(0).getText() + " " +ctx.atom(1).getText());
-
         return ctx.atom(0).getText().equals(ctx.atom(1).getText());
     }
 

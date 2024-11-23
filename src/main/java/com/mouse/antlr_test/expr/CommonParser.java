@@ -19,8 +19,8 @@ public class CommonParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, ID=9, 
-		NUMBER=10, STRING=11, WS=12, IN=13;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, NUMBER=8, STRING=9, 
+		WS=10, IN=11, LIKE=12, ID=13;
 	public static final int
 		RULE_parse = 0, RULE_exprs = 1, RULE_expr = 2, RULE_atom = 3, RULE_list = 4;
 	private static String[] makeRuleNames() {
@@ -32,15 +32,15 @@ public class CommonParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "';'", "'LIKE'", "'='", "'('", "')'", "'['", "','", "']'", null, 
-			null, null, null, "'IN'"
+			null, "';'", "'='", "'('", "')'", "'['", "','", "']'", null, null, null, 
+			"'IN'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, null, null, null, null, null, "ID", "NUMBER", 
-			"STRING", "WS", "IN"
+			null, null, null, null, null, null, null, null, "NUMBER", "STRING", "WS", 
+			"IN", "LIKE", "ID"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -287,6 +287,7 @@ public class CommonParser extends Parser {
 		public AtomContext atom(int i) {
 			return getRuleContext(AtomContext.class,i);
 		}
+		public TerminalNode LIKE() { return getToken(CommonParser.LIKE, 0); }
 		public ExprLikeContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -349,7 +350,7 @@ public class CommonParser extends Parser {
 				setState(28);
 				atom();
 				setState(29);
-				match(T__1);
+				match(LIKE);
 				setState(30);
 				atom();
 				}
@@ -361,7 +362,7 @@ public class CommonParser extends Parser {
 				setState(32);
 				atom();
 				setState(33);
-				match(T__2);
+				match(T__1);
 				setState(34);
 				atom();
 				}
@@ -505,16 +506,16 @@ public class CommonParser extends Parser {
 				match(STRING);
 				}
 				break;
-			case T__3:
+			case T__2:
 				_localctx = new ParenthesizedExprContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(42);
-				match(T__3);
+				match(T__2);
 				setState(43);
 				expr();
 				setState(44);
-				match(T__4);
+				match(T__3);
 				}
 				break;
 			default:
@@ -567,17 +568,17 @@ public class CommonParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(48);
-			match(T__5);
+			match(T__4);
 			setState(49);
 			expr();
 			setState(54);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__6) {
+			while (_la==T__5) {
 				{
 				{
 				setState(50);
-				match(T__6);
+				match(T__5);
 				setState(51);
 				expr();
 				}
@@ -587,7 +588,7 @@ public class CommonParser extends Parser {
 				_la = _input.LA(1);
 			}
 			setState(57);
-			match(T__7);
+			match(T__6);
 			}
 		}
 		catch (RecognitionException re) {
@@ -623,23 +624,23 @@ public class CommonParser extends Parser {
 		"\u0000\u0000\u0000\u0014\u0012\u0001\u0000\u0000\u0000\u0015\u0017\u0005"+
 		"\u0001\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0016\u0017\u0001"+
 		"\u0000\u0000\u0000\u0017\u0003\u0001\u0000\u0000\u0000\u0018\u0019\u0003"+
-		"\u0006\u0003\u0000\u0019\u001a\u0005\r\u0000\u0000\u001a\u001b\u0003\b"+
-		"\u0004\u0000\u001b&\u0001\u0000\u0000\u0000\u001c\u001d\u0003\u0006\u0003"+
-		"\u0000\u001d\u001e\u0005\u0002\u0000\u0000\u001e\u001f\u0003\u0006\u0003"+
+		"\u0006\u0003\u0000\u0019\u001a\u0005\u000b\u0000\u0000\u001a\u001b\u0003"+
+		"\b\u0004\u0000\u001b&\u0001\u0000\u0000\u0000\u001c\u001d\u0003\u0006"+
+		"\u0003\u0000\u001d\u001e\u0005\f\u0000\u0000\u001e\u001f\u0003\u0006\u0003"+
 		"\u0000\u001f&\u0001\u0000\u0000\u0000 !\u0003\u0006\u0003\u0000!\"\u0005"+
-		"\u0003\u0000\u0000\"#\u0003\u0006\u0003\u0000#&\u0001\u0000\u0000\u0000"+
+		"\u0002\u0000\u0000\"#\u0003\u0006\u0003\u0000#&\u0001\u0000\u0000\u0000"+
 		"$&\u0003\u0006\u0003\u0000%\u0018\u0001\u0000\u0000\u0000%\u001c\u0001"+
 		"\u0000\u0000\u0000% \u0001\u0000\u0000\u0000%$\u0001\u0000\u0000\u0000"+
-		"&\u0005\u0001\u0000\u0000\u0000\'/\u0005\t\u0000\u0000(/\u0005\n\u0000"+
-		"\u0000)/\u0005\u000b\u0000\u0000*+\u0005\u0004\u0000\u0000+,\u0003\u0004"+
-		"\u0002\u0000,-\u0005\u0005\u0000\u0000-/\u0001\u0000\u0000\u0000.\'\u0001"+
-		"\u0000\u0000\u0000.(\u0001\u0000\u0000\u0000.)\u0001\u0000\u0000\u0000"+
-		".*\u0001\u0000\u0000\u0000/\u0007\u0001\u0000\u0000\u000001\u0005\u0006"+
-		"\u0000\u000016\u0003\u0004\u0002\u000023\u0005\u0007\u0000\u000035\u0003"+
-		"\u0004\u0002\u000042\u0001\u0000\u0000\u000058\u0001\u0000\u0000\u0000"+
-		"64\u0001\u0000\u0000\u000067\u0001\u0000\u0000\u000079\u0001\u0000\u0000"+
-		"\u000086\u0001\u0000\u0000\u00009:\u0005\b\u0000\u0000:\t\u0001\u0000"+
-		"\u0000\u0000\u0005\u0012\u0016%.6";
+		"&\u0005\u0001\u0000\u0000\u0000\'/\u0005\r\u0000\u0000(/\u0005\b\u0000"+
+		"\u0000)/\u0005\t\u0000\u0000*+\u0005\u0003\u0000\u0000+,\u0003\u0004\u0002"+
+		"\u0000,-\u0005\u0004\u0000\u0000-/\u0001\u0000\u0000\u0000.\'\u0001\u0000"+
+		"\u0000\u0000.(\u0001\u0000\u0000\u0000.)\u0001\u0000\u0000\u0000.*\u0001"+
+		"\u0000\u0000\u0000/\u0007\u0001\u0000\u0000\u000001\u0005\u0005\u0000"+
+		"\u000016\u0003\u0004\u0002\u000023\u0005\u0006\u0000\u000035\u0003\u0004"+
+		"\u0002\u000042\u0001\u0000\u0000\u000058\u0001\u0000\u0000\u000064\u0001"+
+		"\u0000\u0000\u000067\u0001\u0000\u0000\u000079\u0001\u0000\u0000\u0000"+
+		"86\u0001\u0000\u0000\u00009:\u0005\u0007\u0000\u0000:\t\u0001\u0000\u0000"+
+		"\u0000\u0005\u0012\u0016%.6";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
